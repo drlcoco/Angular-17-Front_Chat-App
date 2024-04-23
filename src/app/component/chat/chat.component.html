@@ -1,1 +1,21 @@
-<p>chat works!</p>
+<div>
+    <div style="border: 1px solid black; padding: 12px;">
+      <h3>task.name</h3>
+      <span>task.days Days</span>
+    </div>
+  </div>
+  <div style="border: 1px solid black; padding: 12px;">
+    <form formGroup="form">
+      <label>Task Name</label>
+      <p>
+        <input formControlName="name" type="text"/>
+      </p>
+      <label>Duration (Day)</label>
+      <p>
+        <input formControlName="days" type="number"/>
+      </p>
+      <p>
+        <button >Add</button>
+      </p>
+    </form>
+  </div>
