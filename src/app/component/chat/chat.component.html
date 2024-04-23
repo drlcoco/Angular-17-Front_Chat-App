@@ -1,14 +1,20 @@
 <div class="card m-4">
     <div class="card-header">
         <ul class="nav nav-pills card-header-pills">
+            @if(!connected) {
+                <li class="nav-item me-2">
+                    <input type="text" [(ngModel)]="message.username" class="form-control" placeholder="Nombre de usuario..." name="username"/>
+                </li>
+            }
             <li class="nav-item me-2">
                 @if(!connected) {
-                    <button class="btn btn-success" type="button" (click)="connect()">Conectar chat</button>
+                    <button class="btn btn-success" [disabled]="!message.username" type="button" (click)="connect()">Conectar chat</button>
                 }
             </li>
             <li class="nav-item">
                 @if(connected) {
-                    <button class="btn btn-warning" type="button" (click)="disconnect()">Cerrar chat</button>
+                    <button class="btn btn-warning text-primary me-2" type="button" (click)="disconnect()">Cerrar chat</button>
+                    <button class="btn btn-primary"> &#64;{{ message.username | uppercase }}</button>
                 }
             </li>
         </ul>
@@ -18,7 +24,11 @@
             <ul class="list-group list-group-flush">
                 @for (message of messages; track $index) {
                     <li class="list-group-item list-group-item-light">
-                        {{ message.date | date:'shortTime' }} : {{ message.text }}
+                        @if(message.type == "NEW_USER") {
+                            <span class="text-warning">{{ message.date | date:'HH:mm' }} &#64; {{ message.text }} {{ message.username }}</span>
+                        } @else if(message.type == "MESSAGE") {
+                            <span class="text-primary">{{ message.date | date:'HH:mm' }} {{ message.username }} </span><br><span> {{ message.text }}</span>
+                        }                        
                     </li>
                 }
             </ul>
@@ -28,7 +38,7 @@
                 <div class="form-group mb-3">
                     <input type="text" [(ngModel)]="message.text" class="form-control" placeholder="Escribe un mensaje..." name="text"/>
                 </div>
-                <button class="btn btn-success" type="submit"(click)="sendMessage()" >Enviar</button>
+                <button class="btn btn-primary" type="submit"(click)="sendMessage()" >Enviar</button>
             </form>
         </div>
     }

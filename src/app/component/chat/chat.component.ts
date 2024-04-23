@@ -41,8 +41,9 @@ export class ChatComponent implements OnInit{
         message.date = new Date(message.date);
         this.messages.push(message);
         console.log(message);
-        
-      })
+      });
+      this.message.type = 'NEW_USER';
+      this.client.publish({destination: '/app/message', body: JSON.stringify(this.message)});
     }
     
     this.client.onDisconnect = (frame) => {
@@ -60,6 +61,7 @@ export class ChatComponent implements OnInit{
   }
 
   sendMessage(): void {
+    this.message.type = 'MESSAGE';
     this.client.publish({destination: '/app/message', body: JSON.stringify(this.message)});
     this.message.text = '';
   }
