@@ -3,10 +3,7 @@ import { Client, IStompSocket, IStompSocketMessageEvent } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 
 interface SockJSStompSocket extends IStompSocket {
-  // Define las propiedades o métodos necesarios para que SockJS sea compatible
-  // Aquí definimos una propiedad onmessage que acepta un callback de tipo IStompSocketMessageEvent
   onmessage: ((ev: IStompSocketMessageEvent) => any) | null;
-  // Otros métodos o propiedades necesarios para que SockJS sea compatible con IStompSocket
 }
 
 @Component({
@@ -20,6 +17,7 @@ interface SockJSStompSocket extends IStompSocket {
 export class ChatComponent implements OnInit{
 
   private client!: Client;
+  connected: boolean = false;
 
   constructor() {}
 
@@ -32,8 +30,21 @@ export class ChatComponent implements OnInit{
 
     this.client.onConnect = (frame) => {
       console.log('Conectado: ' + this.client.connected + ' : ' + frame);
+      this.connected = true;
     }
+    
+    this.client.onDisconnect = (frame) => {
+      console.log('Desconectado: ' + !this.client.connected + ' : ' + frame);
+      this.connected = false;
+    }
+  }
+
+  connect() {
     this.client.activate();
+  }
+
+  disconnect() {
+    this.client.deactivate();
   }
 
 }
