@@ -14,13 +14,21 @@
         </ul>
     </div>
     @if(connected) {
-        <div class="card-body" style="overflow-y: scroll; height: 360px;"></div>
+        <div class="card-body" style="overflow-y: scroll; height: 360px;">
+            <ul class="list-group list-group-flush">
+                @for (message of messages; track $index) {
+                    <li class="list-group-item list-group-item-light">
+                        {{ message.date | date:'shortTime' }} : {{ message.text }}
+                    </li>
+                }
+            </ul>
+        </div>
         <div class="card-footer">
             <form class="form-inline">
                 <div class="form-group mb-3">
-                    <input type="text" class="form-control" placeholder="Escribe un mensaje..." name="text"/>
+                    <input type="text" [(ngModel)]="message.text" class="form-control" placeholder="Escribe un mensaje..." name="text"/>
                 </div>
-                <button class="btn btn-success" type="submit">Enviar</button>
+                <button class="btn btn-success" type="submit"(click)="sendMessage()" >Enviar</button>
             </form>
         </div>
     }
