@@ -21,7 +21,7 @@
         <h2 class="text-center text-primary fw-bold ms-auto w-50 my-auto">😊 SUPER <---> CHAT 😊</h2>
     </div>
     @if(connected) {
-        <div class="card-body" style="overflow-y: scroll; height: 360px;">
+        <div #scrollChat [scrollTop]="scrollToBottom()" class="card-body" style="overflow-y: scroll; height: 360px;">
             <ul class="list-group list-group-flush">
                 @for (message of messages; track $index) {
                     <li class="list-group-item list-group-item-light">
@@ -37,8 +37,9 @@
         <div class="card-footer">
             <form class="form-inline">
                 <div class="form-group mb-3">
-                    <input type="text" [(ngModel)]="message.text" class="form-control" placeholder="Escribe un mensaje..." name="text"/>
+                    <input type="text" [(ngModel)]="message.text" (keyup)="writing()" class="form-control" placeholder="Escribe un mensaje..." name="text"/>
                 </div>
+                <div>{{ writingText }}</div>
                 <button class="btn btn-primary" type="submit"(click)="sendMessage()" >Enviar</button>
             </form>
         </div>
