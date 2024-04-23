@@ -1,6 +1,6 @@
 <div class="card m-4">
-    <div class="card-header">
-        <ul class="nav nav-pills card-header-pills">
+    <div class="card-header text-center d-flex justify-content-center align-items-center">
+        <ul class="nav nav-pills card-header-pills me-auto">
             @if(!connected) {
                 <li class="nav-item me-2">
                     <input type="text" [(ngModel)]="message.username" class="form-control" placeholder="Nombre de usuario..." name="username"/>
@@ -18,6 +18,7 @@
                 }
             </li>
         </ul>
+        <h2 class="text-center text-primary fw-bold ms-auto w-50 my-auto">😊 SUPER <---> CHAT 😊</h2>
     </div>
     @if(connected) {
         <div class="card-body" style="overflow-y: scroll; height: 360px;">
@@ -25,9 +26,9 @@
                 @for (message of messages; track $index) {
                     <li class="list-group-item list-group-item-light">
                         @if(message.type == "NEW_USER") {
-                            <span class="text-warning">{{ message.date | date:'HH:mm' }} &#64; {{ message.text }} {{ message.username }}</span>
+                            <span [ngStyle]="{'color': message.color}">{{ message.date | date:'HH:mm' }} &#64; {{ message.text }} {{ message.username }}</span>
                         } @else if(message.type == "MESSAGE") {
-                            <span class="text-primary">{{ message.date | date:'HH:mm' }} {{ message.username }} </span><br><span> {{ message.text }}</span>
+                            <span [ngStyle]="{'color': this.message.color}">{{ message.date | date:'HH:mm' }} {{ message.username }} </span><br><span> {{ message.text }}</span>
                         }                        
                     </li>
                 }
